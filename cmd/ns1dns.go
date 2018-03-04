@@ -53,16 +53,18 @@ func main() {
 	}
 	if len(record.Answers) > 1 {
 		fmt.Println("Answer length is greater than a single record")
+	} else if len(record.Answers) == 0 {
+		updateRecord(*client, NS1_ZONE, NS1_RECORD, NS1_TYPE, DEFAULT_IPV4)
 	} else {
 		fmt.Println("Current dns record value: ", record.Answers[0].String())
 		if record.Answers[0].String() != DEFAULT_IPV4 {
-			fmt.Println("Updating DNS")
 			updateRecord(*client, NS1_ZONE, NS1_RECORD, NS1_TYPE, DEFAULT_IPV4)
 		}
 	}
 }
 
 func updateRecord(client api.Client, zone string, domain string, dnsType string, answer string) {
+	fmt.Println("Updating DNS")
 	aRecord := dns.NewRecord(zone, domain, dnsType)
 	aRecord.AddAnswer(dns.NewAv4Answer(answer))
 	_, err := client.Records.Update(aRecord)
