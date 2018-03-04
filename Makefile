@@ -30,10 +30,13 @@ build: bin/ns1dns
 bin/ns1dns: check-go-version
 	@go install -v -ldflags $(LD_FLAGS) $(REPO_PATH)/cmd/ns1dns
 
+
+.PHONY: release-binary
 release-binary:
 	@go build -o $(GOBIN)/ns1dns -v -ldflags $(LD_FLAGS) $(REPO_PATH)/cmd
 
-
+.PHONY: check-go-version
 check-go-version:
 	@./scripts/check-go-version
 
+.PHONY: fmt lint clean
